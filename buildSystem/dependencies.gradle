@@ -8,10 +8,12 @@ ext {
     androidCompileSdkVersion = 23
 
     androidAppCompatV7Version = '23.1.1'
+    supportDesignVersion = '23.1.1'
     gradleVersion = "1.5.0"
 
     dependencies = [
-            appCompat         : "com.android.support:appcompat-v7:${androidAppCompatV7Version}"
+            appCompat         : "com.android.support:appcompat-v7:${androidAppCompatV7Version}",
+            supportDesign     : "com.android.support:design:${supportDesignVersion}"
     ]
 
     classPathDependencies = [
@@ -19,12 +21,12 @@ ext {
     ]
 
     libDependencies = [
-
     ]
 
     appDependencies = [
         compile           : [
-                  dependencies.appCompat
+                dependencies.appCompat,
+                dependencies.supportDesign
         ]
     ]
 }

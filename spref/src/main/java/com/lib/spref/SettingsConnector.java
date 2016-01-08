@@ -126,7 +126,7 @@ public class SettingsConnector extends AbstractSharedPreferencesController {
      * This removes a setting
      * @since SDK 0.1.0
      */
-    public void removeAll(){
+    public void removeAllSetting(){
        clear();
     }
 }
