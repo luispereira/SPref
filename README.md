@@ -1,6 +1,6 @@
 # SPref
 
-##### Spref allows to manage shared preferences in a simply way #####
+<h3> Spref allows to manage shared preferences in a simply way </h3>
 
 ### Usage ###
 
