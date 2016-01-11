@@ -2,6 +2,7 @@ package com.lib.spref;
 
 import android.content.Context;
 
+import com.lib.spref.Utils.Utils;
 import com.lib.spref.exceptions.SDKNotInitializedException;
 
 /**
@@ -11,7 +12,7 @@ public class SPref {
     private static SPref sInstance;
 
     private Context mContext;
-    private int mResource;
+    private int mResource = Utils.INVALID_ID;
 
     /**
      * Instance of the Spref lib

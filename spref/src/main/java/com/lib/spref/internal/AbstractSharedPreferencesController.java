@@ -43,7 +43,9 @@ public abstract class AbstractSharedPreferencesController {
 	protected AbstractSharedPreferencesController(Context context, String name, MergeType mergeType, int resource) {
 		mContext = context;
 		mPreferences = mContext.getSharedPreferences(name, Context.MODE_PRIVATE);
-		merge(mergeType, resource);
+		if(resource != Utils.INVALID_ID) {
+			merge(mergeType, resource);
+		}
 	}
 
 	private void merge(MergeType mergeType, int resource) {
