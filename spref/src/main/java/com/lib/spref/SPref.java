@@ -39,7 +39,6 @@ public class SPref {
      */
     private SPref(Context context){
         mContext = context;
-        sInstance = this;
     }
 
     /**
@@ -53,7 +52,8 @@ public class SPref {
      * @param context the context
      */
     public static SPref init(Context context){
-        return new SPref(context);
+        sInstance = new SPref(context);
+        return sInstance;
     }
 
     /**
