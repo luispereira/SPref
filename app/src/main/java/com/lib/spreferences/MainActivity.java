@@ -27,7 +27,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 String value = SPref.buildSettings().getSetting("settings-key");
-                Snackbar.make(view, "Replace with your own action " + value, Snackbar.LENGTH_LONG)
+                Snackbar.make(view, "The value of the shared preference is " + value, Snackbar.LENGTH_LONG)
                         .setAction("Action", null).show();
             }
         });
