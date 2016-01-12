@@ -18,7 +18,7 @@ public class SPref {
      * Instance of the Spref lib
      * @return the instance of Spref lib
      */
-    public static synchronized  SPref getInstance()  {
+    public static synchronized SPref getInstance()  {
         if (sInstance == null) {
             throw new SDKNotInitializedException();
         }
@@ -73,9 +73,22 @@ public class SPref {
     }
 
     /**
+     * Builds shared preference in order to access, save and remove  them
+     * <b> Use this instead of {@link #buildSettings()} also avoid {@link #init(Context)}</b>
+     * When you call this is not necessary to call init previously
+     * Although if you need to provide a resource file you must use init and the other buildSettings
+     * @return the controller to manage shared preferences
+     */
+    @SuppressWarnings("unused")
+    public static SettingsConnector buildSettings(Context context){
+        return new SettingsConnector(context, Utils.INVALID_ID);
+    }
+
+    /**
      * Provide a default resource file to merge all managed settings
      * @param resource the resource file
      */
+    @SuppressWarnings("unused")
     public SPref provideDefaultResourceFile(int resource){
         mResource = resource;
         return sInstance;
