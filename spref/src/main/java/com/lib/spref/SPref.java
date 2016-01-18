@@ -42,11 +42,10 @@ public class SPref {
 
     /**
      * The initializer method of the SPref lib
-     * @param context the context
+     * @param context application context
      */
-    public static SPref init(Context context){
+    public static void init(Context context){
         sInstance = new SPref(context);
-        return sInstance;
     }
 
     /**
@@ -68,6 +67,7 @@ public class SPref {
     /**
      * Provide a default resource file to merge all managed settings
      * @param resource the resource file
+     * @return instance of SPref
      */
     @SuppressWarnings("unused")
     public SPref provideDefaultResourceFile(int resource){

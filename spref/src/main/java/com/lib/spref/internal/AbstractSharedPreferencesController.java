@@ -39,6 +39,7 @@ public abstract class AbstractSharedPreferencesController {
 	 * @param context the application context
 	 * @param name the name of the shared preferences
 	 * @param mergeType Indicates when the local file must be merged
+	 * @param resource Indicates the resource file to merge
 	 */
 	protected AbstractSharedPreferencesController(Context context, String name, MergeType mergeType, int resource) {
 		mContext = context;
