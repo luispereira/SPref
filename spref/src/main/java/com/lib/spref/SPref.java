@@ -44,8 +44,9 @@ public class SPref {
      * The initializer method of the SPref lib
      * @param context application context
      */
-    public static void init(Context context){
+    public static SPref init(Context context){
         sInstance = new SPref(context);
+        return sInstance;
     }
 
     /**
