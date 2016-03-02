@@ -2,9 +2,13 @@ package com.lib.spref;
 
 import android.content.Context;
 
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 import com.lib.spref.internal.AbstractSharedPreferencesController;
 
-import java.util.Set;
+import java.lang.reflect.Type;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * @author lpereira on 28/10/2015.
@@ -40,6 +44,18 @@ public class SettingsConnector extends AbstractSharedPreferencesController {
      */
     public int getIntSetting(String settingKey){
         return getInt(settingKey);
+    }
+
+    /**
+     * Retrieve list of settings according to the settingKey
+     * @param settingKey key
+     * @return setting value (return -1 if not found)
+     * @since SDK 0.1.1
+     */
+    public <T> List<T> getListSetting(String settingKey){
+        Gson gson = new Gson();
+        Type listType = new TypeToken<ArrayList<T>>() {}.getType();
+        return gson.fromJson(getSetting(settingKey), listType);
     }
 
     /**
@@ -87,14 +103,16 @@ public class SettingsConnector extends AbstractSharedPreferencesController {
     }
 
     /**
-     * Save a string setting value according to the settingKey
+     * Save a set of settings value according to the settingKey
      * @param settingKey key
-     * @param settingValue a list of values
-     * @since SDK 0.1.0
+     * @param settingValue values
+     * @since SDK 0.1.1
      */
-    public void saveSetting(String settingKey, Set<String> settingValue){
+    public <T> void saveSetting(String settingKey, List<?> settingValue){
         if(settingValue != null) {
-            save(settingKey, settingValue);
+            Gson gson = new Gson();
+            String json = gson.toJson(settingValue);
+            save(settingKey, json);
         }
     }
 

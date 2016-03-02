@@ -9,11 +9,13 @@ ext {
 
     androidAppCompatV7Version = '23.1.1'
     supportDesignVersion = '23.1.1'
+    gsonVersion = '2.2.+'
     gradleVersion = "1.5.0"
 
     dependencies = [
             appCompat         : "com.android.support:appcompat-v7:${androidAppCompatV7Version}",
-            supportDesign     : "com.android.support:design:${supportDesignVersion}"
+            supportDesign     : "com.android.support:design:${supportDesignVersion}",
+            gson              : "com.google.code.gson:gson:${gsonVersion}"
     ]
 
     classPathDependencies = [
@@ -21,6 +23,9 @@ ext {
     ]
 
     libDependencies = [
+            compile           : [
+                    dependencies.gson
+            ]
     ]
 
     appDependencies = [
