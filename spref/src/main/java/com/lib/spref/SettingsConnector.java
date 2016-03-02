@@ -111,8 +111,7 @@ public class SettingsConnector extends AbstractSharedPreferencesController {
     public <T> void saveSetting(String settingKey, List<T> settingValue){
         if(settingValue != null) {
             Gson gson = new Gson();
-            String json = gson.toJson(settingValue);
-            save(settingKey, json);
+            save(settingKey, gson.toJson(settingValue));
         }
     }
 
