@@ -47,6 +47,17 @@ public class SettingsConnector extends AbstractSharedPreferencesController {
     }
 
     /**
+     * Retrieve string setting according to the settingKey
+     * @param settingKey key
+     * @param defaultValue default value
+     * @return setting value (return -1 if not found)
+     * @since SDK 0.1.0
+     */
+    public boolean getBooleanSetting(String settingKey, boolean defaultValue){
+        return getBoolean(settingKey, defaultValue);
+    }
+
+    /**
      * Retrieve list of settings according to the settingKey
      * @param settingKey key
      * @return setting value (return -1 if not found)
@@ -69,7 +80,7 @@ public class SettingsConnector extends AbstractSharedPreferencesController {
     }
 
     /**
-     * Save a string setting value according to the settingKey
+     * Save a boolean setting value according to the settingKey
      * @param settingKey key
      * @param settingValue value
      * @since SDK 0.1.0
@@ -105,14 +116,12 @@ public class SettingsConnector extends AbstractSharedPreferencesController {
     /**
      * Save a set of settings value according to the settingKey
      * @param settingKey key
-     * @param settingValue values
+     * @param settingValue values (may be null)
      * @since SDK 0.1.1
      */
     public <T> void saveSetting(String settingKey, List<T> settingValue){
-        if(settingValue != null) {
-            Gson gson = new Gson();
-            save(settingKey, gson.toJson(settingValue));
-        }
+        Gson gson = new Gson();
+        save(settingKey, gson.toJson(settingValue));
     }
 
     /**

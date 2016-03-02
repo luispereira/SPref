@@ -158,6 +158,19 @@ public abstract class AbstractSharedPreferencesController {
 	}
 
 	/**
+	 * Returns the value for the given key
+	 *
+	 * @param key the key
+	 * @return A string value; null if does not exists
+	 */
+	protected final boolean getBoolean(String key, boolean defaultValue) {
+		if (key == null) {
+			return defaultValue;
+		}
+		return mPreferences.getBoolean(key, defaultValue);
+	}
+
+	/**
 	 * Saves several values into the shared preferences
 	 *
 	 * @param keysValues the key/values combinations to saveRelationships
