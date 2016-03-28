@@ -60,6 +60,7 @@ public class SettingsConnector extends AbstractSharedPreferencesController {
     /**
      * Retrieve list of settings according to the settingKey
      * @param settingKey key
+     * @param <T> generic type
      * @return setting value (return -1 if not found)
      * @since SDK 0.1.1
      */
@@ -117,6 +118,7 @@ public class SettingsConnector extends AbstractSharedPreferencesController {
      * Save a set of settings value according to the settingKey
      * @param settingKey key
      * @param settingValue values (may be null)
+     * @param <T> generic type
      * @since SDK 0.1.1
      */
     public <T> void saveSetting(String settingKey, List<T> settingValue){

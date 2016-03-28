@@ -43,6 +43,7 @@ public class SPref {
     /**
      * The initializer method of the SPref lib
      * @param context application context
+     * @return the instance of SPref
      */
     public static SPref init(Context context){
         sInstance = new SPref(context);
@@ -63,6 +64,17 @@ public class SPref {
      */
     public static SettingsConnector buildSettings(){
         return new SettingsConnector(getInstance().getApplicationContext(), getInstance().mResource);
+    }
+
+    /**
+     * Builds shared preference in order to access, save and remove them <br>
+     * Without using {@link #init(Context)} and without any provided resource
+     * @param context the application context
+     * @return the controller to manage shared preferences
+     */
+    @SuppressWarnings("unused")
+    public static SettingsConnector buildSettings(Context context){
+        return new SettingsConnector(context, Utils.INVALID_ID);
     }
 
     /**

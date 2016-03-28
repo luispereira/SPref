@@ -161,6 +161,7 @@ public abstract class AbstractSharedPreferencesController {
 	 * Returns the value for the given key
 	 *
 	 * @param key the key
+	 * @param defaultValue the default value in case of error or not found
 	 * @return A string value; null if does not exists
 	 */
 	protected final boolean getBoolean(String key, boolean defaultValue) {
