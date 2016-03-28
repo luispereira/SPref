@@ -73,7 +73,7 @@ public class SPref {
      * Builds shared preference in order to access, save and remove  them
      * @return the controller to manage shared preferences
      */
-    public static SettingsConnector buildSettings(){
+    public SettingsConnector buildSettings(){
         return new SettingsConnector(getInstance().getApplicationContext(), getInstance().mResource, getInstance().mPreferencesName);
     }
 
