@@ -74,7 +74,7 @@ public class SPref {
      * @return the controller to manage shared preferences
      */
     public SettingsConnector buildSettings(){
-        return new SettingsConnector(getInstance().getApplicationContext(), getInstance().mResource, getInstance().mPreferencesName);
+        return new SettingsConnector(getApplicationContext(), mResource, mPreferencesName);
     }
 
     /**
