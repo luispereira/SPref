@@ -19,7 +19,7 @@ public class SPref {
      * Instance of the Spref lib
      * @return the instance of Spref lib
      */
-    private static synchronized SPref getInstance()  {
+    private static SPref getInstance()  {
         if (sInstance == null) {
             throw new SDKNotInitializedException();
         }
