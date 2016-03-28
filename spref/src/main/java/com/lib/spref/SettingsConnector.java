@@ -1,6 +1,7 @@
 package com.lib.spref;
 
 import android.content.Context;
+import android.text.TextUtils;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
@@ -21,9 +22,10 @@ public class SettingsConnector extends AbstractSharedPreferencesController {
      * Settings controller constructor method
      * @param context application context
      * @param resource the default file resource
+     * @param preferencesName the name of the shared preferences
      */
-    protected SettingsConnector(Context context, int resource) {
-        super(context, SHARED_PREF_NAME, MergeType.ALWAYS, resource);
+    protected SettingsConnector(Context context, int resource, String preferencesName) {
+        super(context, TextUtils.isEmpty(preferencesName) ? SHARED_PREF_NAME : preferencesName, MergeType.ALWAYS, resource);
     }
 
     /**

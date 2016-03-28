@@ -10,6 +10,7 @@ import com.lib.spref.exceptions.SDKNotInitializedException;
  */
 public class SPref {
     private static SPref sInstance;
+    private String mPreferencesName;
 
     private Context mContext;
     private int mResource = Utils.INVALID_ID;
@@ -51,6 +52,16 @@ public class SPref {
     }
 
     /**
+     * The initializer method of the SPref lib
+     * @param preferencesName application context
+     * @return the instance of SPref
+     */
+    public SPref name(String preferencesName){
+        mPreferencesName = preferencesName;
+        return sInstance;
+    }
+
+    /**
      * The application context
      * @return the context
      */
@@ -63,18 +74,18 @@ public class SPref {
      * @return the controller to manage shared preferences
      */
     public static SettingsConnector buildSettings(){
-        return new SettingsConnector(getInstance().getApplicationContext(), getInstance().mResource);
+        return new SettingsConnector(getInstance().getApplicationContext(), getInstance().mResource, getInstance().mPreferencesName);
     }
 
     /**
      * Builds shared preference in order to access, save and remove them <br>
-     * Without using {@link #init(Context)} and without any provided resource
+     * Without using {@link #init(Context)}, {@link #name(String)} and {@link #provideDefaultResourceFile(int)}
      * @param context the application context
      * @return the controller to manage shared preferences
      */
     @SuppressWarnings("unused")
     public static SettingsConnector buildSettings(Context context){
-        return new SettingsConnector(context, Utils.INVALID_ID);
+        return new SettingsConnector(context, Utils.INVALID_ID, null);
     }
 
     /**
