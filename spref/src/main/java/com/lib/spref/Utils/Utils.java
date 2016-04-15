@@ -8,4 +8,5 @@ public class Utils {
      * Invalid id each will be used across the SDK
      */
     public static final int INVALID_ID = -1;
+    public static final float INVALID_FLOAT_ID = -1f;
 }

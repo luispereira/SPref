@@ -30,6 +30,7 @@ public abstract class AbstractSharedPreferencesController {
 	private static final String DEFAULT_FILE_ROOT_ELEMENT = "root";
 	private static final String DEFAULT_FILE_TEXT_ELEMENT = "value";
 	private static final String DEFAULT_FILE_INTEGER_ELEMENT = "integer";
+	private static final String DEFAULT_FILE_FLOAT_ELEMENT = "float";
 
 	private final Context mContext;
 	private final SharedPreferences mPreferences;
@@ -63,9 +64,11 @@ public abstract class AbstractSharedPreferencesController {
 			RootElement rootElement = new RootElement(DEFAULT_FILE_ROOT_ELEMENT);
 			Element textElement = rootElement.getChild(DEFAULT_FILE_TEXT_ELEMENT);
 			Element integerElement = rootElement.getChild(DEFAULT_FILE_INTEGER_ELEMENT);
+			Element floatElement = rootElement.getChild(DEFAULT_FILE_FLOAT_ELEMENT);
 
 			final Map<String, String> textsToAdd = new HashMap<>();
 			final Map<String, Integer> integerToAdd = new HashMap<>();
+			final Map<String, Float> floatToAdd = new HashMap<>();
 
 			textElement.setTextElementListener(new TextElementListener() {
 
@@ -90,6 +93,30 @@ public abstract class AbstractSharedPreferencesController {
 			integerElement.setTextElementListener(new TextElementListener() {
 
 				private String key;
+				private float value;
+
+				@Override
+				public void start(Attributes attributes) {
+					key = attributes.getValue(DEFAULT_FILE_ATTR_NAME);
+				}
+
+				@Override
+				public void end(String body) {
+					try {
+						value = Float.valueOf(body);
+
+						if (!mPreferences.contains(key)) {
+							floatToAdd.put(key, value);
+						}
+					}catch (Exception e){
+						floatToAdd.put(key, Utils.INVALID_FLOAT_ID);
+					}
+				}
+			});
+
+			floatElement.setTextElementListener(new TextElementListener() {
+
+				private String key;
 				private int value;
 
 				@Override
@@ -99,10 +126,14 @@ public abstract class AbstractSharedPreferencesController {
 
 				@Override
 				public void end(String body) {
-					value = Integer.valueOf(body);
+					try {
+						value = Integer.valueOf(body);
 
-					if (!mPreferences.contains(key)) {
-						integerToAdd.put(key, value);
+						if (!mPreferences.contains(key)) {
+							integerToAdd.put(key, value);
+						}
+					}catch (Exception e){
+						integerToAdd.put(key, Utils.INVALID_ID);
 					}
 				}
 			});
@@ -115,6 +146,10 @@ public abstract class AbstractSharedPreferencesController {
 
 			if (!integerToAdd.isEmpty()) {
 				saveInt(integerToAdd);
+			}
+
+			if (!floatToAdd.isEmpty()) {
+				saveFloat(floatToAdd);
 			}
 
 		} catch (Exception e) {
@@ -161,6 +196,19 @@ public abstract class AbstractSharedPreferencesController {
 	 * Returns the value for the given key
 	 *
 	 * @param key the key
+	 * @return A string value; null if does not exists
+	 */
+	protected final float getFloat(String key) {
+		if (key == null) {
+			return Utils.INVALID_ID;
+		}
+		return mPreferences.getFloat(key, Utils.INVALID_ID);
+	}
+
+	/**
+	 * Returns the value for the given key
+	 *
+	 * @param key the key
 	 * @param defaultValue the default value in case of error or not found
 	 * @return A string value; null if does not exists
 	 */
@@ -198,6 +246,22 @@ public abstract class AbstractSharedPreferencesController {
 
 		for (Map.Entry<String, Integer> entry : keysValues.entrySet()) {
 			editor.putInt(entry.getKey(), entry.getValue());
+		}
+
+		editor.apply();
+	}
+
+	/**
+	 * Saves several values into the shared preferences
+	 *
+	 * @param keysValues the key/values combinations to saveRelationships
+	 */
+	void saveFloat(Map<String, Float> keysValues) {
+
+		SharedPreferences.Editor editor = mPreferences.edit();
+
+		for (Map.Entry<String, Float> entry : keysValues.entrySet()) {
+			editor.putFloat(entry.getKey(), entry.getValue());
 		}
 
 		editor.apply();

@@ -51,6 +51,16 @@ public class SettingsConnector extends AbstractSharedPreferencesController {
     /**
      * Retrieve string setting according to the settingKey
      * @param settingKey key
+     * @return setting value (return -1 if not found)
+     * @since SDK 0.2.2
+     */
+    public float getFloatSetting(String settingKey){
+        return getFloat(settingKey);
+    }
+
+    /**
+     * Retrieve string setting according to the settingKey
+     * @param settingKey key
      * @param defaultValue default value
      * @return setting value (return -1 if not found)
      * @since SDK 0.1.0
