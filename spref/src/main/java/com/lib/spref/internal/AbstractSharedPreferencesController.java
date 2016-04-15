@@ -90,7 +90,7 @@ public abstract class AbstractSharedPreferencesController {
 				}
 			});
 
-			integerElement.setTextElementListener(new TextElementListener() {
+			floatElement.setTextElementListener(new TextElementListener() {
 
 				private String key;
 				private float value;
@@ -114,7 +114,7 @@ public abstract class AbstractSharedPreferencesController {
 				}
 			});
 
-			floatElement.setTextElementListener(new TextElementListener() {
+			integerElement.setTextElementListener(new TextElementListener() {
 
 				private String key;
 				private int value;
@@ -200,9 +200,9 @@ public abstract class AbstractSharedPreferencesController {
 	 */
 	protected final float getFloat(String key) {
 		if (key == null) {
-			return Utils.INVALID_ID;
+			return Utils.INVALID_FLOAT_ID;
 		}
-		return mPreferences.getFloat(key, Utils.INVALID_ID);
+		return mPreferences.getFloat(key, Utils.INVALID_FLOAT_ID);
 	}
 
 	/**
