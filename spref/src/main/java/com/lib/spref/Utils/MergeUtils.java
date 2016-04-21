@@ -6,7 +6,6 @@ import android.sax.Element;
 import android.sax.RootElement;
 import android.util.Xml;
 
-import com.lib.spref.Utils.Utils;
 import com.lib.spref.internal.CustomTextElementListener;
 
 import java.io.IOException;
@@ -14,7 +13,7 @@ import java.io.InputStream;
 import java.util.HashMap;
 import java.util.Map;
 
-import static com.lib.spref.internal.SharedPreferencesController.*;
+import static com.lib.spref.internal.SharedPreferencesController.MergeType;
 
 /**
  * @author lpereira on 21/04/2016.

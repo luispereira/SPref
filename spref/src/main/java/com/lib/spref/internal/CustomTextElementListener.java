@@ -47,6 +47,7 @@ public class CustomTextElementListener implements TextElementListener {
      * When the value and key are fetched from xml this method will be triggered
      * @param key key
      * @param value value
+     * @param <T> generic value (can be string, float or integer)
      */
     public <T> void addValue(String key, T value) {
         //To be implemented by classes that instantiate this
