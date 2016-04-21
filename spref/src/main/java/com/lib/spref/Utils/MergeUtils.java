@@ -47,9 +47,9 @@ public class MergeUtils {
 
             textElement.setTextElementListener(new CustomTextElementListener(preferences, DEFAULT_FILE_ATTR_NAME) {
                 @Override
-                public <T> void addValue(String key, T value) {
+                public void addValue(String key, String value) {
                     try {
-                        stringsToAdd.put(key, String.valueOf(value));
+                        stringsToAdd.put(key, value);
                     }catch (Exception e) {
                         //Cast exception
                         stringsToAdd.put(key, null);
@@ -59,9 +59,9 @@ public class MergeUtils {
 
             floatElement.setTextElementListener(new CustomTextElementListener(preferences, DEFAULT_FILE_ATTR_NAME) {
                 @Override
-                public <T> void addValue(String key, T value) {
+                public  void addValue(String key, String value) {
                     try {
-                        floatToAdd.put(key, (Float) value);
+                        floatToAdd.put(key, Float.valueOf(value));
                     }catch (Exception e){
                         floatToAdd.put(key, Utils.INVALID_FLOAT_ID);
                     }
@@ -71,9 +71,9 @@ public class MergeUtils {
             integerElement.setTextElementListener(
                     new CustomTextElementListener(preferences, DEFAULT_FILE_ATTR_NAME) {
                         @Override
-                        public <T> void addValue(String key, T value) {
+                        public void addValue(String key, String value) {
                             try {
-                                integerToAdd.put(key, (Integer) value);
+                                integerToAdd.put(key, Integer.valueOf(value));
                             }catch (Exception e){
                                 integerToAdd.put(key, Utils.INVALID_ID);
                             }

@@ -40,11 +40,11 @@ This will merge the resource file into the shared preferences.
 The following xml tags are supported:
 
 ```xml
-<root>
- <value name="SETTING_STRING_NAME">SETTING_STRING_VALUE</value>
+<default>
+ <string name="SETTING_STRING_NAME">SETTING_STRING_VALUE</string>
  <integer name="SETTING_INTEGER_NAME">SETTING_INTEGER_VALUE</integer>
  <float name="SETTING_FLOAT_NAME">SETTING_FLOAT_VALUE</float>
-</root>
+</default>
 ```
 
 ### Todo ###

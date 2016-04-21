@@ -9,8 +9,6 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 
-import com.lib.spref.SPref;
-
 public class MainActivity extends AppCompatActivity {
 
     @Override
@@ -20,13 +18,13 @@ public class MainActivity extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        SPref.buildSettings().saveSetting("settings-key", "value");
+//        SPref.buildSettings().saveSetting("settings-key", "value");
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                String value = SPref.buildSettings().getSetting("settings-key");
+                float value = ApplicationSample.getInstance().getSettingsConnector().getFloatSetting("demo_float");
                 Snackbar.make(view, "The value of the shared preference is " + value, Snackbar.LENGTH_LONG)
                         .setAction("Action", null).show();
             }

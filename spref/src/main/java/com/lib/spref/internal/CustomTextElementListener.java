@@ -12,7 +12,6 @@ public class CustomTextElementListener implements TextElementListener {
     private final String defaultFileAttr;
     private final SharedPreferences preferences;
     private String key;
-    private String value;
 
     /**
      * Custom Listener
@@ -30,8 +29,7 @@ public class CustomTextElementListener implements TextElementListener {
     @Override
     public void end(String body) {
         if (!preferences.contains(key)) {
-            value = body;
-            addValue(key, value);
+            addValue(key, body);
         }
     }
 
@@ -47,9 +45,8 @@ public class CustomTextElementListener implements TextElementListener {
      * When the value and key are fetched from xml this method will be triggered
      * @param key key
      * @param value value
-     * @param <T> generic value (can be string, float or integer)
      */
-    public <T> void addValue(String key, T value) {
+    public void addValue(String key, String value) {
         //To be implemented by classes that instantiate this
     }
 }
