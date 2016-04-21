@@ -5,17 +5,18 @@ import android.text.TextUtils;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
-import com.lib.spref.internal.AbstractSharedPreferencesController;
+import com.lib.spref.internal.SharedPreferencesController;
 
 import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 /**
  * @author lpereira on 28/10/2015.
  */
 @SuppressWarnings("unused")
-public class SettingsConnector extends AbstractSharedPreferencesController {
+public class SettingsConnector extends SharedPreferencesController {
     private static final String SHARED_PREF_NAME = "sp_settings";
 
     /**
@@ -127,7 +128,7 @@ public class SettingsConnector extends AbstractSharedPreferencesController {
     }
 
     /**
-     * Save a set of settings value according to the settingKey
+     * Save a list of generic values according to the settingKey
      * @param settingKey key
      * @param settingValue values (may be null)
      * @param <T> generic type
@@ -136,6 +137,16 @@ public class SettingsConnector extends AbstractSharedPreferencesController {
     public <T> void saveSetting(String settingKey, List<T> settingValue){
         Gson gson = new Gson();
         save(settingKey, gson.toJson(settingValue));
+    }
+
+    /**
+     * Save a set of settings value according to the settingKey
+     * @param settingKey key
+     * @param settingValue values (may be null)
+     * @since SDK 0.3.0
+     */
+    public void saveSetting(String settingKey, Set<String> settingValue){
+        save(settingKey, settingValue);
     }
 
     /**
