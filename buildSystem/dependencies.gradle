@@ -1,0 +1,39 @@
+ext {
+    //Android
+    applicationPackage = "com.lib.spreferences"
+    androidBuildToolsVersion = "23.0.2"
+    androidMinSdkVersion = 14
+    androidMinTestSdkVersion = 21
+    androidTargetSdkVersion = 23
+    androidCompileSdkVersion = 23
+
+    androidAppCompatV7Version = '23.1.1'
+    supportDesignVersion = '23.1.1'
+    gsonVersion = '2.6.2'
+    gradleVersion = "1.5.0"
+
+    dependencies = [
+            appCompat         : "com.android.support:appcompat-v7:${androidAppCompatV7Version}",
+            supportDesign     : "com.android.support:design:${supportDesignVersion}",
+            gson              : "com.google.code.gson:gson:${gsonVersion}"
+    ]
+
+    classPathDependencies = [
+            gradle :  "com.android.tools.build:gradle:${gradleVersion}"
+    ]
+
+    libDependencies = [
+            compile           : [
+                    dependencies.gson
+            ]
+    ]
+
+    appDependencies = [
+        compile           : [
+                dependencies.appCompat,
+                dependencies.supportDesign
+        ]
+    ]
+}
+
+
