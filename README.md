@@ -4,6 +4,18 @@
 
 ### Usage ###
 
+Dependency:
+```groovy
+ compile "com.github.luispereira:spref:0.4.0"
+```
+
+Repository:
+```groovy
+    repositories {
+        jcenter()   //or  mavenCentral()
+    }
+```
+
 In order to initialize the library the following must be applied
 
 ```java
