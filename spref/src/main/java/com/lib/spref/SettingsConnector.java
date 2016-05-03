@@ -62,6 +62,16 @@ public class SettingsConnector extends SharedPreferencesController {
     /**
      * Retrieve string setting according to the settingKey
      * @param settingKey key
+     * @return setting value (return -1 if not found)
+     * @since SDK 0.4.1
+     */
+    public long getLongSetting(String settingKey){
+        return getLong(settingKey);
+    }
+
+    /**
+     * Retrieve string setting according to the settingKey
+     * @param settingKey key
      * @param defaultValue default value
      * @return setting value (return -1 if not found)
      * @since SDK 0.1.0
@@ -122,6 +132,19 @@ public class SettingsConnector extends SharedPreferencesController {
      * @since SDK 0.1.0
      */
     public void saveSetting(String settingKey, Long settingValue){
+        if(settingValue != null) {
+            save(settingKey, settingValue);
+        }
+    }
+
+
+    /**
+     * Save a string setting value according to the settingKey
+     * @param settingKey key
+     * @param settingValue value
+     * @since SDK 0.4.1
+     */
+    public void saveSetting(String settingKey, Float settingValue){
         if(settingValue != null) {
             save(settingKey, settingValue);
         }

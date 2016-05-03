@@ -71,6 +71,19 @@ public abstract class SharedPreferencesController {
 	 * Returns the value for the given key
 	 *
 	 * @param key the key
+	 * @return A string value; null if does not exists
+	 */
+	protected final long getLong(String key) {
+		if (key == null) {
+			return Utils.INVALID_ID;
+		}
+		return mPreferences.getLong(key, Utils.INVALID_ID);
+	}
+
+	/**
+	 * Returns the value for the given key
+	 *
+	 * @param key the key
 	 * @param defaultValue the default value in case of error or not found
 	 * @return A string value; null if does not exists
 	 */
@@ -111,6 +124,20 @@ public abstract class SharedPreferencesController {
 			mPreferences.edit().putString(key, null).apply();
 		}else {
 			mPreferences.edit().putInt(key, value).apply();
+		}
+	}
+
+	/**
+	 * Saves a single key/value pair
+	 *
+	 * @param key the key
+	 * @param value the value
+	 */
+	protected void save(String key, Float value) {
+		if(value == null){
+			mPreferences.edit().putString(key, null).apply();
+		}else {
+			mPreferences.edit().putFloat(key, value).apply();
 		}
 	}
 
