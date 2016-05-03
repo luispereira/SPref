@@ -10,7 +10,7 @@ ext {
     androidAppCompatV7Version = '23.1.1'
     supportDesignVersion = '23.1.1'
     gsonVersion = '2.6.2'
-    gradleVersion = "1.5.0"
+    gradleVersion = "2.1.0"
 
     dependencies = [
             appCompat         : "com.android.support:appcompat-v7:${androidAppCompatV7Version}",

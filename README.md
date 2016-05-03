@@ -1,12 +1,12 @@
 # SPref
 
-### Spref allows to manage shared preferences in a simply way ###
+### SPref allows to manage shared preferences in a simply way ###
 
 ### Usage ###
 
 Dependency:
 ```groovy
- compile "com.github.luispereira:spref:0.4.0"
+ compile "com.github.luispereira:spref:0.4.1"
 ```
 
 Repository:
@@ -61,7 +61,7 @@ It is possible to change the name of shared preferences (by default is "sp_setti
 
 
 ### Default Preferences ###
-It is possible to add a default resource file by providing it to the Spref 
+It is possible to add a default resource file by providing it to the SPref 
 ```java
  SPref.init(this).name("NEW_NAME").provideDefaultResourceFile(R.raw.file).buildSettings();
 ```
