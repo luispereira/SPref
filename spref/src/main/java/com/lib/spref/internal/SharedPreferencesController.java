@@ -75,9 +75,9 @@ public abstract class SharedPreferencesController {
 	 */
 	protected final long getLong(String key) {
 		if (key == null) {
-			return Utils.INVALID_ID;
+			return Utils.INVALID_LONG_ID;
 		}
-		return mPreferences.getLong(key, Utils.INVALID_ID);
+		return mPreferences.getLong(key, Utils.INVALID_LONG_ID);
 	}
 
 	/**

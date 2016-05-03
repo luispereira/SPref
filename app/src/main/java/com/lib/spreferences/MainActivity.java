@@ -24,7 +24,7 @@ public class MainActivity extends AppCompatActivity {
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                float value = ApplicationSample.getInstance().getSettingsConnector().getFloatSetting("demo_float");
+                float value = ApplicationSample.getInstance().getSettingsConnector().getLongSetting("demo_long");
                 Snackbar.make(view, "The value of the shared preference is " + value, Snackbar.LENGTH_LONG)
                         .setAction("Action", null).show();
             }

@@ -22,6 +22,7 @@ public class MergeUtils {
     private static final String DEFAULT_FILE_STRING_ELEMENT = "string";
     private static final String DEFAULT_FILE_INTEGER_ELEMENT = "integer";
     private static final String DEFAULT_FILE_FLOAT_ELEMENT = "float";
+    private static final String DEFAULT_FILE_LONG_ELEMENT = "long";
 
     public static void merge(Context context, int resource, SharedPreferences preferences) {
         mergeWithLocalFile(context, resource, preferences);
@@ -36,10 +37,12 @@ public class MergeUtils {
             Element textElement = rootElement.getChild(DEFAULT_FILE_STRING_ELEMENT);
             Element integerElement = rootElement.getChild(DEFAULT_FILE_INTEGER_ELEMENT);
             Element floatElement = rootElement.getChild(DEFAULT_FILE_FLOAT_ELEMENT);
+            Element longElement = rootElement.getChild(DEFAULT_FILE_LONG_ELEMENT);
 
             final Map<String, String> stringsToAdd = new HashMap<>();
             final Map<String, Integer> integerToAdd = new HashMap<>();
             final Map<String, Float> floatToAdd = new HashMap<>();
+            final Map<String, Long> longToAdd = new HashMap<>();
 
             textElement.setTextElementListener(new CustomTextElementListener(preferences) {
                 @Override
@@ -76,6 +79,18 @@ public class MergeUtils {
                         }
                     });
 
+            longElement.setTextElementListener(
+                    new CustomTextElementListener(preferences) {
+                        @Override
+                        public void addValue(String key, String value) {
+                            try {
+                                longToAdd.put(key, Long.valueOf(value));
+                            }catch (Exception e){
+                                longToAdd.put(key, Utils.INVALID_LONG_ID);
+                            }
+                        }
+                    });
+
             Xml.parse(defaultLanguageFileStream, Xml.Encoding.UTF_8, rootElement.getContentHandler());
 
             if (!stringsToAdd.isEmpty()) {
@@ -88,6 +103,10 @@ public class MergeUtils {
 
             if (!floatToAdd.isEmpty()) {
                 saveFloat(preferences, floatToAdd);
+            }
+
+            if (!longToAdd.isEmpty()) {
+                saveLong(preferences, longToAdd);
             }
 
         } catch (Exception e) {
@@ -156,6 +175,22 @@ public class MergeUtils {
 
         for (Map.Entry<String, Float> entry : keysValues.entrySet()) {
             editor.putFloat(entry.getKey(), entry.getValue());
+        }
+
+        editor.apply();
+    }
+
+    /**
+     * Saves several values into the shared preferences
+     * @param preferences shared preferences instance
+     * @param keysValues the key/values combinations to saveRelationships
+     */
+    static void saveLong(SharedPreferences preferences, Map<String, Long> keysValues) {
+
+        SharedPreferences.Editor editor = preferences.edit();
+
+        for (Map.Entry<String, Long> entry : keysValues.entrySet()) {
+            editor.putLong(entry.getKey(), entry.getValue());
         }
 
         editor.apply();
