@@ -78,5 +78,27 @@ The following xml tags are supported:
 </default>
 ```
 
+
+### Encryption ###
+
+The user can also encrypt his information that is saved on the shared preferences, to do that just use when initializing the sdk:
+
+```java
+    SPref.init(this).encrypt(com.lib.spreferences.BuildConfig.PASSWORD_KEY).buildSettings();
+```
+
+The encrypt() method configures the key to use when requesting the following methods to encrypt:
+
+```java
+    ApplicationSample.getInstance().getSPref().saveEncryptedSetting("settings-key", "value");
+```
+
+Or this to retrieve the encrypted value:
+
+```java
+    ApplicationSample.getInstance().getSPref().getEncryptedSetting("settings-key");
+```
+
+
 ### Todo ###
 - Allows to provide a file (not resource) in order to merge that file with shared preferences

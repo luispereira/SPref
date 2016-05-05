@@ -15,7 +15,10 @@ public class ApplicationSample extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
-        mSettingsConnector = SPref.init(this).provideDefaultResourceFile(R.raw.default_settings).buildSettings(); //With this way the SharedPreferences is initialized with a default resource file
+        mSettingsConnector = SPref.init(this)
+                .provideDefaultResourceFile(R.raw.default_settings)
+                .encrypt(com.lib.spreferences.BuildConfig.PASSWORD_KEY)
+                .buildSettings(); //With this way the SharedPreferences is initialized with a default resource file
         sInstance = this;
     }
 
@@ -23,7 +26,7 @@ public class ApplicationSample extends Application {
         return sInstance;
     }
 
-    public SettingsConnector getSettingsConnector() {
+    public SettingsConnector getSPref() {
         return mSettingsConnector;
     }
 }

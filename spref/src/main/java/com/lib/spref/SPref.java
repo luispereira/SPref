@@ -2,6 +2,7 @@ package com.lib.spref;
 
 import android.content.Context;
 
+import com.lib.spref.Utils.EncryptionUtils;
 import com.lib.spref.Utils.Utils;
 
 /**
@@ -9,8 +10,9 @@ import com.lib.spref.Utils.Utils;
  */
 public class SPref {
     private static SPref sInstance;
-    private String mPreferencesName;
+    private static byte[] mEncryptSeed = null;
 
+    private String mPreferencesName;
     private Context mContext;
     private int mResource = Utils.INVALID_ID;
 
@@ -62,18 +64,7 @@ public class SPref {
      * @return the controller to manage shared preferences
      */
     public SettingsConnector buildSettings(){
-        return new SettingsConnector(getApplicationContext(), mResource, mPreferencesName);
-    }
-
-    /**
-     * Builds shared preference in order to access, save and remove them <br>
-     * Without using {@link #init(Context)}, {@link #name(String)} and {@link #provideDefaultResourceFile(int)}
-     * @param context the application context
-     * @return the controller to manage shared preferences
-     */
-    @SuppressWarnings("unused")
-    public static SettingsConnector buildSettings(Context context){
-        return new SettingsConnector(context, Utils.INVALID_ID, null);
+        return new SettingsConnector(getApplicationContext(), mResource, mPreferencesName, mEncryptSeed);
     }
 
     /**
@@ -85,5 +76,38 @@ public class SPref {
     public SPref provideDefaultResourceFile(int resource){
         mResource = resource;
         return sInstance;
+    }
+
+    /**
+     * Encrypt configurations providing a key this key should have at least 128bits
+     * Remember that if you change this key the values that were written before are no longer accessible
+     * @return key
+     */
+    @SuppressWarnings("unused")
+    public SPref encrypt(byte[] key){
+        mEncryptSeed = key;
+        return sInstance;
+    }
+
+    /**
+     * Encrypt configurations providing a key
+     * Remember that if you change this key the values that were written before are no longer accessible
+     * @return key to encrypt
+     */
+    @SuppressWarnings("unused")
+    public SPref encrypt(String key){
+        mEncryptSeed = EncryptionUtils.generateKey(key);
+        return sInstance;
+    }
+
+    /**
+     * Builds shared preference in order to access, save and remove them <br>
+     * Without using {@link #init(Context)}, {@link #name(String)} and {@link #provideDefaultResourceFile(int)}
+     * @param context the application context
+     * @return the controller to manage shared preferences
+     */
+    @SuppressWarnings("unused")
+    public static SettingsConnector buildSettings(Context context){
+        return new SettingsConnector(context, Utils.INVALID_ID, null, mEncryptSeed);
     }
 }

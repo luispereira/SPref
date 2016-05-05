@@ -18,14 +18,15 @@ public class MainActivity extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-//        SPref.buildSettings().saveSetting("settings-key", "value");
+        ApplicationSample.getInstance().getSPref().saveEncryptedSetting("settings-key", "value");
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                float value = ApplicationSample.getInstance().getSettingsConnector().getLongSetting("demo_long");
-                Snackbar.make(view, "The value of the shared preference is " + value, Snackbar.LENGTH_LONG)
+                String value =  ApplicationSample.getInstance().getSPref().getEncryptedSetting("settings-key");
+                float floatValue = ApplicationSample.getInstance().getSPref().getLongSetting("demo_long");
+                Snackbar.make(view, "The value of the shared preference is " + value + " and float " + floatValue, Snackbar.LENGTH_LONG)
                         .setAction("Action", null).show();
             }
         });

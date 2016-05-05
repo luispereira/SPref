@@ -24,9 +24,10 @@ public class SettingsConnector extends SharedPreferencesController {
      * @param context application context
      * @param resource the default file resource
      * @param preferencesName the name of the shared preferences
+     * @param encrypt if all settings should be encrypted
      */
-    protected SettingsConnector(Context context, int resource, String preferencesName) {
-        super(context, TextUtils.isEmpty(preferencesName) ? SHARED_PREF_NAME : preferencesName, resource);
+    protected SettingsConnector(Context context, int resource, String preferencesName, byte[] encrypt) {
+        super(context, TextUtils.isEmpty(preferencesName) ? SHARED_PREF_NAME : preferencesName, resource, encrypt);
     }
 
     /**
@@ -37,6 +38,16 @@ public class SettingsConnector extends SharedPreferencesController {
      */
     public String getSetting(String settingKey){
         return get(settingKey);
+    }
+
+    /**
+     * Retrieve string setting according to the settingKey
+     * @param settingKey key
+     * @return setting value or null if there was any problem trying to decrypt the value
+     * @since SDK 0.4.2
+     */
+    public String getEncryptedSetting(String settingKey){
+        return getEncryptedString(settingKey);
     }
 
     /**
@@ -101,6 +112,15 @@ public class SettingsConnector extends SharedPreferencesController {
      */
     public void saveSetting(String settingKey, String settingValue){
         save(settingKey, settingValue);
+    }
+    /**
+     * Encrypts a string and saves it on shared preferences (If there was an error or encryption key was not provided it will save null)
+     * @param settingKey key
+     * @param settingValue value
+     * @since SDK 0.4.2
+     */
+    public void saveEncryptedSetting(String settingKey, String settingValue){
+        saveEncryption(settingKey, settingValue);
     }
 
     /**
