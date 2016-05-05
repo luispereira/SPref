@@ -110,6 +110,7 @@ public class SPref {
     /**
      * Encrypt configurations providing a key
      * Remember that if you change this key the values that were written before are no longer accessible
+     * @param key the key hexadecimal to encrypt
      * @return key to encrypt
      */
     @SuppressWarnings("unused")

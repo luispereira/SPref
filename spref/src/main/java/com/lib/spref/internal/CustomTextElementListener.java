@@ -18,6 +18,7 @@ public class CustomTextElementListener implements TextElementListener {
     /**
      * Custom Listener
      * @param preferences preferences
+     * @param shouldOverride if should override the values of the preferences
      */
     public CustomTextElementListener(SharedPreferences preferences, boolean shouldOverride) {
         this.preferences = preferences;
