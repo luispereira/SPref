@@ -99,6 +99,7 @@ public class SPref {
     /**
      * Encrypt configurations providing a key this key should have at least 128bits
      * Remember that if you change this key the values that were written before are no longer accessible
+     * @param key the key hexadecimal to encrypt
      * @return key
      */
     @SuppressWarnings("unused")
