@@ -131,16 +131,6 @@ public class MergeUtils {
     }
 
     /**
-     * Checks if the shared preferences is empty
-     * @param preferences shared preferences instance
-     * @return True if empty; false otherwise
-     */
-    static boolean isEmpty(SharedPreferences preferences) {
-        Map<String, ?> all = preferences.getAll();
-        return all == null || all.isEmpty();
-    }
-
-    /**
      * Saves several values into the shared preferences
      * @param preferences shared preferences instance
      * @param keysValues the key/values combinations to saveRelationships

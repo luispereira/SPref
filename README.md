@@ -67,6 +67,13 @@ It is possible to add a default resource file by providing it to the SPref
 ```
 This will merge the resource file into the shared preferences. If there is already a value with the same key, the value will not be overrided.
 
+The user can also provide a file after the initialization of the SDK by doing (the merge will not override any setting):
+
+```java
+ ApplicationSample.getInstance().getSPref().mergeSettings(FILE);
+```
+
+
 The following xml tags are supported:
 
 ```xml
