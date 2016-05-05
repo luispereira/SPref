@@ -5,8 +5,10 @@ import android.text.TextUtils;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
+import com.lib.spref.Utils.MergeUtils;
 import com.lib.spref.internal.SharedPreferencesController;
 
+import java.io.File;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.List;
@@ -213,6 +215,17 @@ public class SettingsConnector extends SharedPreferencesController {
             for (String aSettingKey : settingKey) {
                 remove(aSettingKey);
             }
+        }
+    }
+
+    /**
+     * This will merge an xml file
+     * @param file xml file
+     * @since SDK 0.4.2
+     */
+    public void mergeSettings(File file){
+        if(file != null && file.exists()) {
+            MergeUtils.merge(file, getPreferences());
         }
     }
 

@@ -8,6 +8,9 @@ import android.util.Xml;
 
 import com.lib.spref.internal.CustomTextElementListener;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.HashMap;
@@ -25,14 +28,19 @@ public class MergeUtils {
     private static final String DEFAULT_FILE_LONG_ELEMENT = "long";
 
     public static void merge(Context context, int resource, SharedPreferences preferences) {
-        mergeWithLocalFile(context, resource, preferences);
+        mergeWithLocalFile(context.getResources().openRawResource(resource), preferences);
     }
 
-    private static void mergeWithLocalFile(Context context, int resource, SharedPreferences preferences) {
-        InputStream defaultLanguageFileStream = null;
+    public static void merge(File file, SharedPreferences preferences) {
         try {
-            defaultLanguageFileStream = context.getResources().openRawResource(resource);
+            mergeWithLocalFile(new FileInputStream(file), preferences);
+        } catch (FileNotFoundException e) {
+            //ignored the file should be proper handler by the user that call it
+        }
+    }
 
+    private static void mergeWithLocalFile(InputStream defaultLanguageFileStream, SharedPreferences preferences) {
+        try {
             RootElement rootElement = new RootElement(DEFAULT_FILE_DEFAULT_ELEMENT);
             Element textElement = rootElement.getChild(DEFAULT_FILE_STRING_ELEMENT);
             Element integerElement = rootElement.getChild(DEFAULT_FILE_INTEGER_ELEMENT);

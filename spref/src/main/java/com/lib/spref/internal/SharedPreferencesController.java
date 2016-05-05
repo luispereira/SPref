@@ -219,4 +219,8 @@ public abstract class SharedPreferencesController {
 	protected void remove(String key) {
 		mPreferences.edit().remove(key).apply();
 	}
+
+	protected SharedPreferences getPreferences() {
+		return mPreferences;
+	}
 }
