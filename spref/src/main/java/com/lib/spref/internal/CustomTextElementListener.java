@@ -12,14 +12,16 @@ import org.xml.sax.Attributes;
  */
 public class CustomTextElementListener implements TextElementListener {
     private final SharedPreferences preferences;
+    private final boolean shouldOverride;
     private String key;
 
     /**
      * Custom Listener
      * @param preferences preferences
      */
-    public CustomTextElementListener(SharedPreferences preferences) {
+    public CustomTextElementListener(SharedPreferences preferences, boolean shouldOverride) {
         this.preferences = preferences;
+        this.shouldOverride = shouldOverride;
     }
 
     /**
@@ -27,7 +29,7 @@ public class CustomTextElementListener implements TextElementListener {
      */
     @Override
     public void end(String body) {
-        if (!preferences.contains(key)) {
+        if (shouldOverride || !preferences.contains(key)) {
             addValue(key, body);
         }
     }

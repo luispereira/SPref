@@ -16,7 +16,7 @@ public class ApplicationSample extends Application {
     public void onCreate() {
         super.onCreate();
         mSettingsConnector = SPref.init(this)
-                .provideDefaultResourceFile(R.raw.default_settings)
+                .provideDefaultResourceFile(R.raw.default_settings, false)
                 .encrypt(com.lib.spreferences.BuildConfig.PASSWORD_KEY)
                 .buildSettings(); //With this way the SharedPreferences is initialized with a default resource file
         sInstance = this;

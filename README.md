@@ -6,7 +6,7 @@
 
 Dependency:
 ```groovy
- compile "com.github.luispereira:spref:0.4.1"
+ compile "com.github.luispereira:spref:0.5.0"
 ```
 
 Repository:
@@ -63,14 +63,20 @@ It is possible to change the name of shared preferences (by default is "sp_setti
 ### Default Preferences ###
 It is possible to add a default resource file by providing it to the SPref 
 ```java
- SPref.init(this).name("NEW_NAME").provideDefaultResourceFile(R.raw.file).buildSettings();
+ SPref.init(this).name("NEW_NAME").provideDefaultResourceFile(R.raw.file, false).buildSettings();
 ```
-This will merge the resource file into the shared preferences. If there is already a value with the same key, the value will not be overrided.
+This will merge the resource file into the shared preferences. If there is already a value with the same key, the value will not be overrided. In order to change this behaviour and override all the values the user should use the following parameters:
+ 
+```java
+  SPref.init(this).name("NEW_NAME").provideDefaultResourceFile(R.raw.file, true).buildSettings();
+```
 
-The user can also provide a file after the initialization of the SDK by doing (the merge will not override any setting):
+Be aware that calling this on application OnCreate() will always override the values according to the given file when the application is created.
+
+The user can also provide a file after the initialization of the SDK by doing (the merge will not override any setting if its false, otherwise pass it true):
 
 ```java
- ApplicationSample.getInstance().getSPref().mergeSettings(FILE);
+ ApplicationSample.getInstance().getSPref().mergeSettings(FILE, false);
 ```
 
 

@@ -27,19 +27,19 @@ public class MergeUtils {
     private static final String DEFAULT_FILE_FLOAT_ELEMENT = "float";
     private static final String DEFAULT_FILE_LONG_ELEMENT = "long";
 
-    public static void merge(Context context, int resource, SharedPreferences preferences) {
-        mergeWithLocalFile(context.getResources().openRawResource(resource), preferences);
+    public static void merge(Context context, int resource, SharedPreferences preferences, boolean shouldOverride) {
+        mergeWithLocalFile(context.getResources().openRawResource(resource), preferences, shouldOverride);
     }
 
-    public static void merge(File file, SharedPreferences preferences) {
+    public static void merge(File file, SharedPreferences preferences, boolean shouldOverride) {
         try {
-            mergeWithLocalFile(new FileInputStream(file), preferences);
+            mergeWithLocalFile(new FileInputStream(file), preferences, shouldOverride);
         } catch (FileNotFoundException e) {
             //ignored the file should be proper handler by the user that call it
         }
     }
 
-    private static void mergeWithLocalFile(InputStream defaultLanguageFileStream, SharedPreferences preferences) {
+    private static void mergeWithLocalFile(InputStream defaultLanguageFileStream, SharedPreferences preferences, boolean shouldOverride) {
         try {
             RootElement rootElement = new RootElement(DEFAULT_FILE_DEFAULT_ELEMENT);
             Element textElement = rootElement.getChild(DEFAULT_FILE_STRING_ELEMENT);
@@ -52,7 +52,7 @@ public class MergeUtils {
             final Map<String, Float> floatToAdd = new HashMap<>();
             final Map<String, Long> longToAdd = new HashMap<>();
 
-            textElement.setTextElementListener(new CustomTextElementListener(preferences) {
+            textElement.setTextElementListener(new CustomTextElementListener(preferences, shouldOverride) {
                 @Override
                 public void addValue(String key, String value) {
                     try {
@@ -64,7 +64,7 @@ public class MergeUtils {
                 }
             });
 
-            floatElement.setTextElementListener(new CustomTextElementListener(preferences) {
+            floatElement.setTextElementListener(new CustomTextElementListener(preferences, shouldOverride) {
                 @Override
                 public  void addValue(String key, String value) {
                     try {
@@ -76,7 +76,7 @@ public class MergeUtils {
             });
 
             integerElement.setTextElementListener(
-                    new CustomTextElementListener(preferences) {
+                    new CustomTextElementListener(preferences, shouldOverride) {
                         @Override
                         public void addValue(String key, String value) {
                             try {
@@ -88,7 +88,7 @@ public class MergeUtils {
                     });
 
             longElement.setTextElementListener(
-                    new CustomTextElementListener(preferences) {
+                    new CustomTextElementListener(preferences, shouldOverride) {
                         @Override
                         public void addValue(String key, String value) {
                             try {

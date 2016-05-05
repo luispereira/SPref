@@ -25,12 +25,13 @@ public abstract class SharedPreferencesController {
 	 * @param name the name of the shared preferences
 	 * @param resource Indicates the resource file to merge
 	 * @param encrypt if all settings should be encrypted
+	 * @param shouldOverride if the user wants to override the existent values with the same value keys found
 	 */
-	protected SharedPreferencesController(Context context, String name, int resource, byte[] encrypt) {
+	protected SharedPreferencesController(Context context, String name, int resource, byte[] encrypt, boolean shouldOverride) {
 		mPreferences = context.getSharedPreferences(name, Context.MODE_PRIVATE);
 		mEncrypt = encrypt;
 		if(resource != Utils.INVALID_ID) {
-			MergeUtils.merge(context, resource, mPreferences);
+			MergeUtils.merge(context, resource, mPreferences, shouldOverride);
 		}
 	}
 

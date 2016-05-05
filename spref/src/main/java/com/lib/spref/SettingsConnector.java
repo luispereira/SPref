@@ -27,9 +27,10 @@ public class SettingsConnector extends SharedPreferencesController {
      * @param resource the default file resource
      * @param preferencesName the name of the shared preferences
      * @param encrypt if all settings should be encrypted
+     * @param shouldOverride if the user wants to override the existent values with the same value keys found
      */
-    protected SettingsConnector(Context context, int resource, String preferencesName, byte[] encrypt) {
-        super(context, TextUtils.isEmpty(preferencesName) ? SHARED_PREF_NAME : preferencesName, resource, encrypt);
+    protected SettingsConnector(Context context, int resource, String preferencesName, byte[] encrypt, boolean shouldOverride) {
+        super(context, TextUtils.isEmpty(preferencesName) ? SHARED_PREF_NAME : preferencesName, resource, encrypt, shouldOverride);
     }
 
     /**
@@ -221,11 +222,12 @@ public class SettingsConnector extends SharedPreferencesController {
     /**
      * This will merge an xml file
      * @param file xml file
+     * @param shouldOverride if the user wants to override the existent values with the same value keys found
      * @since SDK 0.4.2
      */
-    public void mergeSettings(File file){
+    public void mergeSettings(File file, boolean shouldOverride){
         if(file != null && file.exists()) {
-            MergeUtils.merge(file, getPreferences());
+            MergeUtils.merge(file, getPreferences(), shouldOverride);
         }
     }
 
