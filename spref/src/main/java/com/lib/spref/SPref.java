@@ -99,8 +99,8 @@ public class SPref {
     /**
      * Encrypt configurations providing a key this key should have at least 128bits
      * Remember that if you change this key the values that were written before are no longer accessible
-     * @param key the key hexadecimal to encrypt
-     * @return key
+     * @param key the key in byte[] with at least 128bits
+     * @return the SPref instance
      */
     @SuppressWarnings("unused")
     public SPref encrypt(byte[] key){
@@ -112,7 +112,7 @@ public class SPref {
      * Encrypt configurations providing a key
      * Remember that if you change this key the values that were written before are no longer accessible
      * @param key the key hexadecimal to encrypt
-     * @return key to encrypt
+     * @return the SPref instance
      */
     @SuppressWarnings("unused")
     public SPref encrypt(String key){
