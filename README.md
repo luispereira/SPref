@@ -112,6 +112,3 @@ Or this to retrieve the encrypted value:
     ApplicationSample.getInstance().getSPref().getEncryptedSetting("settings-key");
 ```
 
-
-### Todo ###
-- Allows to provide a file (not resource) in order to merge that file with shared preferences
