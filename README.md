@@ -112,3 +112,9 @@ Or this to retrieve the encrypted value:
     ApplicationSample.getInstance().getSPref().getEncryptedSetting("settings-key");
 ```
 
+### RxJava ###
+
+For the RxJava version you can use:
+```html
+    https://github.com/luispereira/RxSPref
+```
