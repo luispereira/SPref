@@ -11,6 +11,7 @@ import com.lib.spref.Utils.Utils;
 public class SPref {
     private static SPref sInstance;
     private static byte[] mEncryptSeed = null;
+    private static SettingsConnector mSettingsConnector;
 
     private String mPreferencesName;
     private Context mContext;
@@ -128,6 +129,7 @@ public class SPref {
      */
     @SuppressWarnings("unused")
     public static SettingsConnector buildSettings(Context context){
-        return new SettingsConnector(context, Utils.INVALID_ID, null, mEncryptSeed, false);
+        mSettingsConnector = new SettingsConnector(context, Utils.INVALID_ID, null, mEncryptSeed, false);
+        return mSettingsConnector;
     }
 }

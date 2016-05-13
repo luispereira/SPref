@@ -1,12 +1,15 @@
 package com.lib.spref;
 
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.text.TextUtils;
+import android.util.Base64;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
+import com.lib.spref.Utils.EncryptionUtils;
 import com.lib.spref.Utils.MergeUtils;
-import com.lib.spref.internal.SharedPreferencesController;
+import com.lib.spref.Utils.Utils;
 
 import java.io.File;
 import java.lang.reflect.Type;
@@ -18,8 +21,11 @@ import java.util.Set;
  * @author lpereira on 28/10/2015.
  */
 @SuppressWarnings("unused")
-public class SettingsConnector extends SharedPreferencesController {
+public class SettingsConnector {
     private static final String SHARED_PREF_NAME = "sp_settings";
+
+    private final SharedPreferences mPreferences;
+    private final byte[] mEncrypt;
 
     /**
      * Settings controller constructor method
@@ -29,8 +35,12 @@ public class SettingsConnector extends SharedPreferencesController {
      * @param encrypt if all settings should be encrypted
      * @param shouldOverride if the user wants to override the existent values with the same value keys found
      */
-    protected SettingsConnector(Context context, int resource, String preferencesName, byte[] encrypt, boolean shouldOverride) {
-        super(context, TextUtils.isEmpty(preferencesName) ? SHARED_PREF_NAME : preferencesName, resource, encrypt, shouldOverride);
+    public SettingsConnector(Context context, int resource, String preferencesName, byte[] encrypt, boolean shouldOverride) {
+        mPreferences = context.getSharedPreferences(TextUtils.isEmpty(preferencesName) ? SHARED_PREF_NAME : preferencesName, Context.MODE_PRIVATE);
+        mEncrypt = encrypt;
+        if(resource != Utils.INVALID_ID) {
+            MergeUtils.merge(context, resource, mPreferences, shouldOverride);
+        }
     }
 
     /**
@@ -40,7 +50,11 @@ public class SettingsConnector extends SharedPreferencesController {
      * @since SDK 0.1.0
      */
     public String getSetting(String settingKey){
-        return get(settingKey);
+        if (settingKey == null) {
+            return null;
+        }
+
+        return mPreferences.getString(settingKey, null);
     }
 
     /**
@@ -50,17 +64,25 @@ public class SettingsConnector extends SharedPreferencesController {
      * @since SDK 0.4.2
      */
     public String getEncryptedSetting(String settingKey){
-        return getEncryptedString(settingKey);
+        String value = mPreferences.getString(settingKey, null);
+        if(mEncrypt != null && !TextUtils.isEmpty(value)) {
+            byte[] array = Base64.decode(value, Base64.NO_WRAP);
+            return EncryptionUtils.decrypt(mEncrypt, array);
+        }
+        return null;
     }
 
     /**
      * Retrieve string setting according to the settingKey
      * @param settingKey key
      * @return setting value (return -1 if not found)
-     * @since SDK 0.1.0
+     * @since SDK 0.6.0
      */
     public int getIntSetting(String settingKey){
-        return getInt(settingKey);
+        if (settingKey == null) {
+            return Utils.INVALID_ID;
+        }
+        return mPreferences.getInt(settingKey, Utils.INVALID_ID);
     }
 
     /**
@@ -70,7 +92,10 @@ public class SettingsConnector extends SharedPreferencesController {
      * @since SDK 0.2.2
      */
     public float getFloatSetting(String settingKey){
-        return getFloat(settingKey);
+        if (settingKey == null) {
+            return Utils.INVALID_FLOAT_ID;
+        }
+        return mPreferences.getFloat(settingKey, Utils.INVALID_FLOAT_ID);
     }
 
     /**
@@ -80,7 +105,10 @@ public class SettingsConnector extends SharedPreferencesController {
      * @since SDK 0.4.1
      */
     public long getLongSetting(String settingKey){
-        return getLong(settingKey);
+        if (settingKey == null) {
+            return Utils.INVALID_LONG_ID;
+        }
+        return mPreferences.getLong(settingKey, Utils.INVALID_LONG_ID);
     }
 
     /**
@@ -91,7 +119,10 @@ public class SettingsConnector extends SharedPreferencesController {
      * @since SDK 0.1.0
      */
     public boolean getBooleanSetting(String settingKey, boolean defaultValue){
-        return getBoolean(settingKey, defaultValue);
+        if (settingKey == null) {
+            return defaultValue;
+        }
+        return mPreferences.getBoolean(settingKey, defaultValue);
     }
 
     /**
@@ -114,7 +145,7 @@ public class SettingsConnector extends SharedPreferencesController {
      * @since SDK 0.1.0
      */
     public void saveSetting(String settingKey, String settingValue){
-        save(settingKey, settingValue);
+        mPreferences.edit().putString(settingKey, settingValue).apply();
     }
     /**
      * Encrypts a string and saves it on shared preferences (If there was an error or encryption key was not provided it will save null)
@@ -123,7 +154,13 @@ public class SettingsConnector extends SharedPreferencesController {
      * @since SDK 0.4.2
      */
     public void saveEncryptedSetting(String settingKey, String settingValue){
-        saveEncryption(settingKey, settingValue);
+        if(mEncrypt != null && settingValue != null){
+            byte[] resultValue = EncryptionUtils.encrypt(mEncrypt, settingValue);
+            settingValue = Base64.encodeToString(resultValue, Base64.NO_WRAP);
+        }else{
+            settingValue = null;
+        }
+        mPreferences.edit().putString(settingKey, settingValue).apply();
     }
 
     /**
@@ -133,7 +170,7 @@ public class SettingsConnector extends SharedPreferencesController {
      * @since SDK 0.1.0
      */
     public void saveSetting(String settingKey, boolean settingValue){
-        save(settingKey, settingValue);
+        mPreferences.edit().putBoolean(settingKey, settingValue).apply();
     }
 
     /**
@@ -143,8 +180,10 @@ public class SettingsConnector extends SharedPreferencesController {
      * @since SDK 0.1.0
      */
     public void saveSetting(String settingKey, Integer settingValue){
-        if(settingValue != null) {
-            save(settingKey, settingValue);
+        if(settingValue == null) {
+            mPreferences.edit().putString(settingKey, null).apply();
+        }else {
+            mPreferences.edit().putInt(settingKey, settingValue).apply();
         }
     }
 
@@ -155,11 +194,12 @@ public class SettingsConnector extends SharedPreferencesController {
      * @since SDK 0.1.0
      */
     public void saveSetting(String settingKey, Long settingValue){
-        if(settingValue != null) {
-            save(settingKey, settingValue);
+        if(settingValue == null){
+            mPreferences.edit().putString(settingKey, null).apply();
+        }else {
+            mPreferences.edit().putLong(settingKey, settingValue).apply();
         }
     }
-
 
     /**
      * Save a string setting value according to the settingKey
@@ -168,8 +208,10 @@ public class SettingsConnector extends SharedPreferencesController {
      * @since SDK 0.4.1
      */
     public void saveSetting(String settingKey, Float settingValue){
-        if(settingValue != null) {
-            save(settingKey, settingValue);
+        if(settingValue == null){
+            mPreferences.edit().putString(settingKey, null).apply();
+        }else {
+            mPreferences.edit().putFloat(settingKey, settingValue).apply();
         }
     }
 
@@ -182,7 +224,7 @@ public class SettingsConnector extends SharedPreferencesController {
      */
     public <T> void saveSetting(String settingKey, List<T> settingValue){
         Gson gson = new Gson();
-        save(settingKey, gson.toJson(settingValue));
+        saveSetting(settingKey, gson.toJson(settingValue));
     }
 
     /**
@@ -192,7 +234,7 @@ public class SettingsConnector extends SharedPreferencesController {
      * @since SDK 0.3.0
      */
     public void saveSetting(String settingKey, Set<String> settingValue){
-        save(settingKey, settingValue);
+        mPreferences.edit().putStringSet(settingKey, settingValue).apply();
     }
 
     /**
@@ -202,7 +244,7 @@ public class SettingsConnector extends SharedPreferencesController {
      */
     public void removeSetting(String settingKey){
         if(settingKey != null) {
-            remove(settingKey);
+            mPreferences.edit().remove(settingKey).apply();
         }
     }
 
@@ -214,7 +256,7 @@ public class SettingsConnector extends SharedPreferencesController {
     public void removeBulkSetting(String... settingKey){
         if(settingKey != null) {
             for (String aSettingKey : settingKey) {
-                remove(aSettingKey);
+                removeSetting(aSettingKey);
             }
         }
     }
@@ -227,7 +269,7 @@ public class SettingsConnector extends SharedPreferencesController {
      */
     public void mergeSettings(File file, boolean shouldOverride){
         if(file != null && file.exists()) {
-            MergeUtils.merge(file, getPreferences(), shouldOverride);
+            MergeUtils.merge(file, mPreferences, shouldOverride);
         }
     }
 
@@ -236,6 +278,6 @@ public class SettingsConnector extends SharedPreferencesController {
      * @since SDK 0.1.0
      */
     public void removeAllSetting(){
-       clear();
+        mPreferences.edit().clear().apply();
     }
 }
