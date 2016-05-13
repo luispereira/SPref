@@ -16,6 +16,7 @@ public class SPref {
     private String mPreferencesName;
     private Context mContext;
     private int mResource = Utils.INVALID_ID;
+    private int mMode = Utils.INVALID_ID;
     private boolean mShouldOverride;
 
     /**
@@ -59,14 +60,6 @@ public class SPref {
      */
     protected Context getApplicationContext(){
         return mContext;
-    }
-
-    /**
-     * Builds shared preference in order to access, save and remove  them
-     * @return the controller to manage shared preferences
-     */
-    public SettingsConnector buildSettings(){
-        return new SettingsConnector(getApplicationContext(), mResource, mPreferencesName, mEncryptSeed, mShouldOverride);
     }
 
     /**
@@ -122,6 +115,32 @@ public class SPref {
     }
 
     /**
+     * Change the mode of the SPref (MODE_PRIVATE by default)
+     * The modes can be:
+     * - {@link Context#MODE_PRIVATE}  //This is set by default
+     * - {@link Context#MODE_APPEND}
+     * - {@link Context#MODE_MULTI_PROCESS}
+     * - {@link Context#MODE_WORLD_READABLE}
+     * - {@link Context#MODE_WORLD_WRITEABLE}
+     *
+     * @param mode mode of the shared preferences
+     * @return SPref instance
+     */
+    @SuppressWarnings("unused")
+    public SPref mode(int mode){
+        mMode = mode;
+        return sInstance;
+    }
+
+    /**
+     * Builds shared preference in order to access, save and remove  them
+     * @return the controller to manage shared preferences
+     */
+    public SettingsConnector buildSettings(){
+        return new SettingsConnector(getApplicationContext(), mResource, mPreferencesName, mEncryptSeed, mShouldOverride, mMode);
+    }
+
+    /**
      * Builds shared preference in order to access, save and remove them <br>
      * Without using {@link #init(Context)}, {@link #name(String)} and {@link #provideDefaultResourceFile(int, boolean)}
      * @param context the application context
@@ -129,7 +148,7 @@ public class SPref {
      */
     @SuppressWarnings("unused")
     public static SettingsConnector buildSettings(Context context){
-        mSettingsConnector = new SettingsConnector(context, Utils.INVALID_ID, null, mEncryptSeed, false);
+        mSettingsConnector = new SettingsConnector(context, Utils.INVALID_ID, null, mEncryptSeed, false, Utils.INVALID_ID);
         return mSettingsConnector;
     }
 }

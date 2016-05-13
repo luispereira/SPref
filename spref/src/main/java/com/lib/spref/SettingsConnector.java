@@ -34,9 +34,10 @@ public class SettingsConnector {
      * @param preferencesName the name of the shared preferences
      * @param encrypt if all settings should be encrypted
      * @param shouldOverride if the user wants to override the existent values with the same value keys found
+     * @param mode mode which the shared preferences should be
      */
-    public SettingsConnector(Context context, int resource, String preferencesName, byte[] encrypt, boolean shouldOverride) {
-        mPreferences = context.getSharedPreferences(TextUtils.isEmpty(preferencesName) ? SHARED_PREF_NAME : preferencesName, Context.MODE_PRIVATE);
+    public SettingsConnector(Context context, int resource, String preferencesName, byte[] encrypt, boolean shouldOverride, int mode) {
+        mPreferences = context.getSharedPreferences(TextUtils.isEmpty(preferencesName) ? SHARED_PREF_NAME : preferencesName, mode == Utils.INVALID_ID ? Context.MODE_PRIVATE : mode);
         mEncrypt = encrypt;
         if(resource != Utils.INVALID_ID) {
             MergeUtils.merge(context, resource, mPreferences, shouldOverride);
