@@ -6,7 +6,7 @@
 
 Dependency:
 ```groovy
- compile "com.github.luispereira:spref:0.5.0"
+ compile "com.github.luispereira:spref:0.6.0"
 ```
 
 Repository:
@@ -110,6 +110,14 @@ Or this to retrieve the encrypted value:
 
 ```java
     ApplicationSample.getInstance().getSPref().getEncryptedSetting("settings-key");
+```
+
+### Change Preferences Mode ###
+
+In order to change the default mode of "MODE_PRIVATE" of the shared preferences, the following method should be called on initialization:
+
+```java
+   (...).mode(MODE).buildSettings();
 ```
 
 ### RxJava ###
