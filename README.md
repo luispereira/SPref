@@ -112,6 +112,9 @@ Or this to retrieve the encrypted value:
     ApplicationSample.getInstance().getSPref().getEncryptedSetting("settings-key");
 ```
 
+### RxJava ###
 
-### Todo ###
-- Allows to provide a file (not resource) in order to merge that file with shared preferences
+For the RxJava version you can use:
+```html
+    https://github.com/luispereira/RxSPref
+```
