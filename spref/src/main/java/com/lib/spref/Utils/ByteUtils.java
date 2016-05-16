@@ -13,7 +13,7 @@ public class ByteUtils {
      *
      * @param clear The content to be encrypted.
      * @return The byte array representing the string received
-     * @throws UnsupportedEncodingException
+     * @throws UnsupportedEncodingException if cannot be converted to byte array
      */
     public static byte[] getByteArray(String clear) throws UnsupportedEncodingException {
         ByteArrayInputStream input = new ByteArrayInputStream(clear.getBytes("UTF-8"));
