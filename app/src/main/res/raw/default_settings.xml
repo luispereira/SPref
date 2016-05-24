@@ -12,4 +12,5 @@
     <string name="url">http://www.google.com</string>
     <float name="demo_float">0.3</float>
     <long name="demo_long">3</long>
+    <boolean name="demo_boolean">true</boolean>
 </default>

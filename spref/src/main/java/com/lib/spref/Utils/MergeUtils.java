@@ -26,6 +26,7 @@ public class MergeUtils {
     private static final String DEFAULT_FILE_INTEGER_ELEMENT = "integer";
     private static final String DEFAULT_FILE_FLOAT_ELEMENT = "float";
     private static final String DEFAULT_FILE_LONG_ELEMENT = "long";
+    private static final String DEFAULT_FILE_BOOLEAN_ELEMENT = "boolean";
 
     public static void merge(Context context, int resource, SharedPreferences preferences, boolean shouldOverride) {
         mergeWithLocalFile(context.getResources().openRawResource(resource), preferences, shouldOverride);
@@ -39,6 +40,7 @@ public class MergeUtils {
         }
     }
 
+    //This should be refactored in the future
     private static void mergeWithLocalFile(InputStream defaultLanguageFileStream, SharedPreferences preferences, boolean shouldOverride) {
         try {
             RootElement rootElement = new RootElement(DEFAULT_FILE_DEFAULT_ELEMENT);
@@ -46,11 +48,13 @@ public class MergeUtils {
             Element integerElement = rootElement.getChild(DEFAULT_FILE_INTEGER_ELEMENT);
             Element floatElement = rootElement.getChild(DEFAULT_FILE_FLOAT_ELEMENT);
             Element longElement = rootElement.getChild(DEFAULT_FILE_LONG_ELEMENT);
+            Element booleanElement = rootElement.getChild(DEFAULT_FILE_BOOLEAN_ELEMENT);
 
             final Map<String, String> stringsToAdd = new HashMap<>();
             final Map<String, Integer> integerToAdd = new HashMap<>();
             final Map<String, Float> floatToAdd = new HashMap<>();
             final Map<String, Long> longToAdd = new HashMap<>();
+            final Map<String, Boolean> booleanToAdd = new HashMap<>();
 
             textElement.setTextElementListener(new CustomTextElementListener(preferences, shouldOverride) {
                 @Override
@@ -75,8 +79,7 @@ public class MergeUtils {
                 }
             });
 
-            integerElement.setTextElementListener(
-                    new CustomTextElementListener(preferences, shouldOverride) {
+            integerElement.setTextElementListener(new CustomTextElementListener(preferences, shouldOverride) {
                         @Override
                         public void addValue(String key, String value) {
                             try {
@@ -87,14 +90,23 @@ public class MergeUtils {
                         }
                     });
 
-            longElement.setTextElementListener(
-                    new CustomTextElementListener(preferences, shouldOverride) {
+            longElement.setTextElementListener(new CustomTextElementListener(preferences, shouldOverride) {
                         @Override
                         public void addValue(String key, String value) {
                             try {
                                 longToAdd.put(key, Long.valueOf(value));
                             }catch (Exception e){
                                 longToAdd.put(key, Utils.INVALID_LONG_ID);
+                            }
+                        }
+                    });
+            booleanElement.setTextElementListener(new CustomTextElementListener(preferences, shouldOverride) {
+                        @Override
+                        public void addValue(String key, String value) {
+                            try {
+                                booleanToAdd.put(key, Boolean.valueOf(value));
+                            }catch (Exception e){
+                                booleanToAdd.put(key, false);
                             }
                         }
                     });
@@ -115,6 +127,10 @@ public class MergeUtils {
 
             if (!longToAdd.isEmpty()) {
                 saveLong(preferences, longToAdd);
+            }
+
+            if (!booleanToAdd.isEmpty()) {
+                saveBoolean(preferences, booleanToAdd);
             }
 
         } catch (Exception e) {
@@ -189,6 +205,22 @@ public class MergeUtils {
 
         for (Map.Entry<String, Long> entry : keysValues.entrySet()) {
             editor.putLong(entry.getKey(), entry.getValue());
+        }
+
+        editor.apply();
+    }
+
+    /**
+     * Saves several values into the shared preferences
+     * @param preferences shared preferences instance
+     * @param keysValues the key/values combinations to saveRelationships
+     */
+    static void saveBoolean(SharedPreferences preferences, Map<String, Boolean> keysValues) {
+
+        SharedPreferences.Editor editor = preferences.edit();
+
+        for (Map.Entry<String, Boolean> entry : keysValues.entrySet()) {
+            editor.putBoolean(entry.getKey(), entry.getValue());
         }
 
         editor.apply();
