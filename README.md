@@ -6,7 +6,7 @@
 
 Dependency:
 ```groovy
- compile "com.github.luispereira:spref:0.5.2"
+ compile "com.github.luispereira:spref:0.5.3"
 ```
 
 Repository:
@@ -88,6 +88,7 @@ The following xml tags are supported:
  <integer name="SETTING_INTEGER_NAME">SETTING_INTEGER_VALUE</integer>
  <float name="SETTING_FLOAT_NAME">SETTING_FLOAT_VALUE</float>
  <long name="SETTING_LONG_NAME">SETTING_LONG_VALUE</long>
+ <boolean name="SETTING_BOOLEAN_NAME">SETTING_BOOLEAN_VALUE</boolean> <!-- (true/false) -->
 </default>
 ```
 
