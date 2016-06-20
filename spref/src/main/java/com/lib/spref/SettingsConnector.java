@@ -77,7 +77,7 @@ public class SettingsConnector {
      * Retrieve string setting according to the settingKey
      * @param settingKey key
      * @return setting value (return -1 if not found)
-     * @since SDK 0.6.0
+     * @since SDK 0.4.2
      */
     public int getIntSetting(String settingKey){
         if (settingKey == null) {
@@ -148,6 +148,19 @@ public class SettingsConnector {
     public void saveSetting(String settingKey, String settingValue){
         mPreferences.edit().putString(settingKey, settingValue).apply();
     }
+
+    /**
+     * Save a string setting value according to the settingKey
+     * @param settingKey key
+     * @param settingValue value
+     * @since SDK 0.5.4
+     */
+    public void saveNonNullSetting(String settingKey, String settingValue){
+        if(settingValue != null) {
+            saveSetting(settingKey, settingValue);
+        }
+    }
+
     /**
      * Encrypts a string and saves it on shared preferences (If there was an error or encryption key was not provided it will save null)
      * @param settingKey key
@@ -192,6 +205,18 @@ public class SettingsConnector {
      * Save a string setting value according to the settingKey
      * @param settingKey key
      * @param settingValue value
+     * @since SDK 0.5.4
+     */
+    public void saveNonNullSetting(String settingKey, Integer settingValue){
+        if(settingValue != null) {
+            saveSetting(settingKey, settingValue);
+        }
+    }
+
+    /**
+     * Save a string setting value according to the settingKey
+     * @param settingKey key
+     * @param settingValue value
      * @since SDK 0.1.0
      */
     public void saveSetting(String settingKey, Long settingValue){
@@ -206,6 +231,18 @@ public class SettingsConnector {
      * Save a string setting value according to the settingKey
      * @param settingKey key
      * @param settingValue value
+     * @since SDK 0.5.4
+     */
+    public void saveNonNullSetting(String settingKey, Long settingValue){
+        if(settingValue != null){
+            saveSetting(settingKey, settingValue);
+        }
+    }
+
+    /**
+     * Save a string setting value according to the settingKey
+     * @param settingKey key
+     * @param settingValue value
      * @since SDK 0.4.1
      */
     public void saveSetting(String settingKey, Float settingValue){
@@ -213,6 +250,18 @@ public class SettingsConnector {
             mPreferences.edit().putString(settingKey, null).apply();
         }else {
             mPreferences.edit().putFloat(settingKey, settingValue).apply();
+        }
+    }
+
+    /**
+     * Save a string setting value according to the settingKey
+     * @param settingKey key
+     * @param settingValue value
+     * @since SDK 0.5.4
+     */
+    public void saveNonNullSetting(String settingKey, Float settingValue){
+        if(settingValue != null){
+            saveSetting(settingKey, settingValue);
         }
     }
 
@@ -271,6 +320,18 @@ public class SettingsConnector {
     public void mergeSettings(File file, boolean shouldOverride){
         if(file != null && file.exists()) {
             MergeUtils.merge(file, mPreferences, shouldOverride);
+        }
+    }
+
+    /**
+     * This will merge an xml file
+     * @param json xml file
+     * @param shouldOverride if the user wants to override the existent values with the same value keys found
+     * @since SDK 0.6.0
+     */
+    public void mergeJsonSettings(String json, boolean shouldOverride){
+        if(!TextUtils.isEmpty(json)) {
+            MergeUtils.mergeJson(json, mPreferences, shouldOverride);
         }
     }
 
