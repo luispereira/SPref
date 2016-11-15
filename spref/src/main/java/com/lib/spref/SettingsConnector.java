@@ -364,19 +364,6 @@ public class SettingsConnector {
     }
 
     /**
-     * This will merge an xml file
-     *
-     * @param json           xml file
-     * @param shouldOverride if the user wants to override the existent values with the same value keys found
-     * @since SDK 0.6.0
-     */
-    public void mergeJsonSettings(String json, boolean shouldOverride) {
-        if (!TextUtils.isEmpty(json)) {
-            MergeUtils.mergeJson(json, mPreferences, shouldOverride);
-        }
-    }
-
-    /**
      * This removes a setting
      *
      * @since SDK 0.1.0
