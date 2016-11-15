@@ -61,6 +61,20 @@ public class SettingsConnector {
     /**
      * Retrieve string setting according to the settingKey
      * @param settingKey key
+     * @return setting value
+     * @since SDK 0.5.5
+     */
+    public String getSetting(String settingKey, String defaultValue){
+        if (settingKey == null) {
+            return null;
+        }
+
+        return mPreferences.getString(settingKey, defaultValue);
+    }
+
+    /**
+     * Retrieve string setting according to the settingKey
+     * @param settingKey key
      * @return setting value or null if there was any problem trying to decrypt the value
      * @since SDK 0.4.2
      */
