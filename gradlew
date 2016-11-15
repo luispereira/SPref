@@ -1,20 +1,3 @@
-Skip to content
-This repository
-Search
-Pull requests
-Issues
-Gist
- @luispereira
- Watch 1,328
-  Star 12,189
- Fork 4,693 google/iosched
- Code  Issues 26  Pull requests 15  Projects 0  Pulse  Graphs
-Branch: master Find file Copy pathiosched/gradlew
-ac2ec5c  on 31 Jul 2013
- Roman Nurik Initial iosched 2013 snapshot
-0 contributors
-RawBlameHistory     
-Executable File  165 lines (144 sloc)  4.96 KB
 #!/usr/bin/env bash
 
 ##############################################################################
