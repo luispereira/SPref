@@ -3,9 +3,9 @@ android:
   components:
      # Update Android SDK Tools
     - tools
-
+    - platform-tools
     - build-tools-23.0.2
-    - android-21
+    - android-23
 
     # Support library
     - extra-android-support
