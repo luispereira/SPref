@@ -5,9 +5,8 @@ buildscript {
         jcenter()
     }
     dependencies {
-        apply from: 'buildsystem/dependencies.gradle'
-        apply from: 'buildsystem/configurations.gradle'
-        apply from: 'buildsystem/bintrayConfigurations.gradle'
+        apply from: 'buildSystem/dependencies.gradle'
+        apply from: 'buildSystem/configurations.gradle'
 
         classpath rootProject.ext.classPathDependencies.gradle
 
