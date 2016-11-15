@@ -14,11 +14,9 @@
 .idea/misc.xml
 .idea/modules.xml
 .idea/runConfigurations.xml
-gradle.properties
 app/src/test/java/com/lib/spreferences/ExampleUnitTest.java
 .idea/vcs.xml
 buildSystem/bintrayConfigurations.gradle
 buildSystem/bintrayUpload.gradle
-build.gradle
-/spref/build.gradle
 projectFilesBackup/.idea/
+gradle.properties
