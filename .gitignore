@@ -14,8 +14,6 @@
 .idea/misc.xml
 .idea/modules.xml
 .idea/runConfigurations.xml
-gradle/wrapper/gradle-wrapper.jar
-gradle/wrapper/gradle-wrapper.properties
 gradle.properties
 app/src/test/java/com/lib/spreferences/ExampleUnitTest.java
 .idea/vcs.xml
