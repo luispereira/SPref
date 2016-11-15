@@ -1,5 +1,8 @@
 language: android
 jdk: oraclejdk8
+cache:
+  directories:
+   - node_modules
 android:
   components:
      # Update Android SDK Tools
@@ -13,4 +16,4 @@ android:
     - extra-android-m2repository
 
 script:
-   - ./gradlew build connectedCheck
+   - ./gradlew build
