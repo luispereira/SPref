@@ -1,19 +1,16 @@
 language: android
 jdk: oraclejdk8
-cache:
-  directories:
-   - node_modules
+
 android:
   components:
      # Update Android SDK Tools
     - tools
     - platform-tools
     - build-tools-23.0.2
-    - android-23
-
-    # Support library
+    - android-23	
+    - add-on
+    - extra
     - extra-android-support
-    - extra-android-m2repository
-
+    - extra-android-m2repository	
 script:
    - ./gradlew build

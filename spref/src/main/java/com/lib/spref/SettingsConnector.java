@@ -2,9 +2,7 @@ package com.lib.spref;
 
 import android.content.Context;
 import android.content.SharedPreferences;
-import android.text.TextUtils;
 import android.util.Base64;
-
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.lib.spref.Utils.EncryptionUtils;
@@ -37,9 +35,9 @@ public class SettingsConnector {
      * @param shouldOverride  if the user wants to override the existent values with the same value keys found
      * @param mode            mode which the shared preferences should be
      */
-    public SettingsConnector(Context context, int resource, String preferencesName, byte[] encrypt, boolean shouldOverride, int mode) {
-        mPreferences =
-                context.getSharedPreferences(TextUtils.isEmpty(preferencesName) ? SHARED_PREF_NAME : preferencesName, mode == Utils.INVALID_ID ? Context.MODE_PRIVATE : mode);
+    SettingsConnector(Context context, int resource, String preferencesName, byte[] encrypt, boolean shouldOverride, int mode) {
+        String value = preferencesName == null || preferencesName.isEmpty() ? SHARED_PREF_NAME : preferencesName;
+        mPreferences = context.getSharedPreferences(value, mode == Utils.INVALID_ID ? Context.MODE_PRIVATE : mode);
         mEncrypt = encrypt;
         if (resource != Utils.INVALID_ID) {
             MergeUtils.merge(context, resource, mPreferences, shouldOverride);
@@ -86,7 +84,7 @@ public class SettingsConnector {
      */
     public String getEncryptedSetting(String settingKey) {
         String value = mPreferences.getString(settingKey, null);
-        if (mEncrypt != null && !TextUtils.isEmpty(value)) {
+        if (mEncrypt != null && value != null && !value.isEmpty()) {
             byte[] array = Base64.decode(value, Base64.NO_WRAP);
             return EncryptionUtils.decrypt(mEncrypt, array);
         }
