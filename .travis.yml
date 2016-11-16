@@ -7,14 +7,12 @@ env:
     - SDK=${TRAVIS_BUILD_DIR}/android-sdk
     - PATH=${GRADLE_USER_HOME}/bin/:${SDK}/:${SDK}/tools/:${SDK}/platform-tools/:${PATH}
 before_install:
-  - echo "WARNING delete this when fixed"; export OLD_SDK=/usr/local/android-sdk-23.0.2;
+  - export OLD_SDK=/usr/local/android-sdk-23.0.2;
                                            mkdir -p ${SDK};
                                            cp -u -R ${OLD_SDK}/platforms ${SDK}/platforms;
                                            cp -u -R ${OLD_SDK}/system-images ${SDK}/system-images;
-                                           cp -u -R ${OLD_SDK}/tools ${SDK}/tools || echo "CP ERROR"
-before_cache:
-  - rm -f  $HOME/.gradle/caches/modules-2/modules-2.lock
-  - rm -fr $HOME/.gradle/caches/*/plugin-resolution/
+                                           cp -u -R ${OLD_SDK}/tools ${SDK}/tools
+
 cache:
   apt: true
   directories:
@@ -30,6 +28,7 @@ android:
     - android-23	
     - add-on
     - extra
-
+    - extra-android-support
+    - extra-android-m2repository	
 script:
    - ./gradlew check
