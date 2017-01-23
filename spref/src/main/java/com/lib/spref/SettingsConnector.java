@@ -85,7 +85,7 @@ public class SettingsConnector {
     public String getEncryptedSetting(String settingKey) {
         String value = mPreferences.getString(settingKey, null);
         if (mEncrypt != null && value != null && !value.isEmpty()) {
-            byte[] array = Base64.decode(value, Base64.NO_WRAP);
+            byte[] array = Base64.decode(value, Base64.URL_SAFE);
             return EncryptionUtils.decrypt(mEncrypt, array);
         }
         return null;
@@ -196,7 +196,7 @@ public class SettingsConnector {
     public void saveEncryptedSetting(String settingKey, String settingValue) {
         if (mEncrypt != null && settingValue != null) {
             byte[] resultValue = EncryptionUtils.encrypt(mEncrypt, settingValue);
-            settingValue = Base64.encodeToString(resultValue, Base64.NO_WRAP);
+            settingValue = Base64.encodeToString(resultValue, Base64.URL_SAFE);
         } else {
             settingValue = null;
         }
