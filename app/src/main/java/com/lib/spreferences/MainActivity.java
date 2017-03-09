@@ -18,7 +18,7 @@ public class MainActivity extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        ApplicationSample.getInstance().getSPref().saveEncryptedSetting("settings-key", "value");
+        ApplicationSample.getInstance().getSPref().saveEncryptedSetting("settings-key", "value.+/lalal@lalal-lala.com");
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {

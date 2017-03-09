@@ -8,6 +8,7 @@ import com.google.gson.reflect.TypeToken;
 import com.lib.spref.Utils.EncryptionUtils;
 import com.lib.spref.Utils.MergeUtils;
 import com.lib.spref.Utils.Utils;
+import com.lib.spref.internal.EncryptionState;
 
 import java.io.File;
 import java.lang.reflect.Type;
@@ -21,6 +22,7 @@ import java.util.Set;
 @SuppressWarnings("unused")
 public class SettingsConnector {
     private static final String SHARED_PREF_NAME = "sp_settings";
+    private static final String SPREF_ENCRYPTION_TAG = "#SPREF_ENCRYPTION_TAG#";
 
     private final SharedPreferences mPreferences;
     private final byte[] mEncrypt;
@@ -81,7 +83,9 @@ public class SettingsConnector {
      * @param settingKey key
      * @return setting value or null if there was any problem trying to decrypt the value
      * @since SDK 0.4.2
+     * @deprecated use {@link #getSafeEncryptedSetting(String)} instead
      */
+    @Deprecated
     public String getEncryptedSetting(String settingKey) {
         String value = mPreferences.getString(settingKey, null);
         if (mEncrypt != null && value != null && !value.isEmpty()) {
@@ -89,6 +93,43 @@ public class SettingsConnector {
             return EncryptionUtils.decrypt(mEncrypt, array);
         }
         return null;
+    }
+
+    /**
+     * Retrieve string setting, if is encrypted returned the values as {@link #getEncryptedSetting(String)}, if not, returns only the value as {@link #getSetting(String)}
+     *
+     * @param settingKey an object containing if the key was successfully decrypted and its value
+     * @return setting value or null if there was any problem trying to decrypt the value
+     * @since SDK 0.7.0
+     */
+    public SafeSetting getSafeEncryptedSetting(String settingKey) {
+        if (isKeyEncrypted(settingKey)) {
+            String value = mPreferences.getString(settingKey, null);
+            if (mEncrypt != null && value != null && !value.isEmpty()) {
+                byte[] array = Base64.decode(value, Base64.URL_SAFE);
+
+                String decryptedValues = EncryptionUtils.decrypt(mEncrypt, array);
+                if(decryptedValues != null){
+                     return new SafeSetting(EncryptionState.SUCCESSFULLY_DECRYPTED, decryptedValues);
+                }else{
+                    return new SafeSetting(EncryptionState.ENCRYPTION_ERROR, null);
+                }
+            }else{
+                return new SafeSetting(EncryptionState.INTERNAL_ERROR, null);
+            }
+        } else {
+            return new SafeSetting(EncryptionState.SUCCESS, getSetting(settingKey));
+        }
+    }
+
+    /**
+     * Checks if a key is encrypted or not
+     * @param settingKey key
+     * @return if is encrypted or not
+     * @since SDK 0.7.0
+     */
+    public boolean isKeyEncrypted(String settingKey) {
+        return settingKey != null && mPreferences.getBoolean(SPREF_ENCRYPTION_TAG + settingKey, false);
     }
 
     /**
@@ -192,13 +233,35 @@ public class SettingsConnector {
      * @param settingKey   key
      * @param settingValue value
      * @since SDK 0.4.2
+     * @deprecated use {@link #saveSafeEncryptedSetting(String, String)} instead
      */
+    @Deprecated
     public void saveEncryptedSetting(String settingKey, String settingValue) {
         if (mEncrypt != null && settingValue != null) {
             byte[] resultValue = EncryptionUtils.encrypt(mEncrypt, settingValue);
             settingValue = Base64.encodeToString(resultValue, Base64.URL_SAFE);
+            saveSetting(SPREF_ENCRYPTION_TAG + settingKey, true);
         } else {
             settingValue = null;
+            saveSetting(SPREF_ENCRYPTION_TAG + settingKey, false);
+        }
+        mPreferences.edit().putString(settingKey, settingValue).apply();
+    }
+
+    /**
+     * Encrypts a string and saves it on shared preferences
+     *
+     * @param settingKey   key
+     * @param settingValue value
+     * @since SDK 0.7.0
+     */
+    public void saveSafeEncryptedSetting(String settingKey, String settingValue) {
+        if (mEncrypt != null && settingValue != null) {
+            byte[] resultValue = EncryptionUtils.encrypt(mEncrypt, settingValue);
+            settingValue = Base64.encodeToString(resultValue, Base64.URL_SAFE);
+            saveSetting(SPREF_ENCRYPTION_TAG + settingKey, true);
+        } else {
+            saveSetting(SPREF_ENCRYPTION_TAG + settingKey, false);
         }
         mPreferences.edit().putString(settingKey, settingValue).apply();
     }
@@ -331,6 +394,8 @@ public class SettingsConnector {
     public void removeSetting(String settingKey) {
         if (settingKey != null) {
             mPreferences.edit().remove(settingKey).apply();
+           //making sure there is not a encryption setting
+            mPreferences.edit().remove(SPREF_ENCRYPTION_TAG + settingKey).apply();
         }
     }
 
