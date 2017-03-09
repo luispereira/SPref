@@ -6,7 +6,7 @@
 
 Dependency:
 ```groovy
- compile "com.github.luispereira:spref:0.6.1"
+ compile "com.github.luispereira:spref:0.7.0"
 ```
 
 Repository:
