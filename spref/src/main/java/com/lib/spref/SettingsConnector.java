@@ -196,10 +196,27 @@ public class SettingsConnector {
      * @param <T>        generic type
      * @return setting value (return -1 if not found)
      * @since SDK 0.1.1
-     */
+     * @deprecated use {@link #getListSetting(String, Class)} instead
+      */
+    @Deprecated
     public <T> List<T> getListSetting(String settingKey) {
         Gson gson = new Gson();
         Type listType = new TypeToken<ArrayList<T>>() {}.getType();
+        return gson.fromJson(getSetting(settingKey), listType);
+    }
+
+    /**
+     * Retrieve list of settings according to the settingKey and converts to a specific set of item
+     * This solves the issue of LinkedTreeMap
+     *
+     * @param settingKey key
+     * @param <T>        generic type
+     * @return setting value (return -1 if not found)
+     * @since SDK 0.7.2
+     */
+    public <T> List<T> getListSetting(String settingKey, Class clazz) {
+        Gson gson = new Gson();
+        Type listType = TypeToken.getParameterized(ArrayList.class, clazz).getType();
         return gson.fromJson(getSetting(settingKey), listType);
     }
 
